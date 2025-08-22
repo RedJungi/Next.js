@@ -1,0 +1,104 @@
+.demoForm {
+  /* 데모 신청 폼 스타일 */
+  border: 1px #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f3f4f6;
+  text-align: center;
+  height: 100vh;
+  line-height: 30px;
+}
+
+.required {
+  text-align: left;
+  display: inline-block;
+  width: 310px; /* 입력 박스와 같은 너비 */
+}
+
+/* 필수 입력 표시 스타일 */
+.required::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
+
+.demoForm h1 {
+  /* 데모 신청 폼 제목 스타일 */
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: rgb(100, 100, 240); /* gray-800 */
+}
+.demoFormPage {
+  /* 데모 신청 페이지 스타일 */
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.inputform {
+  font-size: 14px;
+}
+.inputbox {
+  width: 310px;
+  height: 25px;
+}
+
+.inquiry {
+  resize: both;
+  min-width: 200px;
+  max-width: 500px;
+  min-height: 100px;
+  max-height: 300px;
+}
+
+.button {
+  padding: 14px 36px;
+  font: 600 20px/1 system-ui, sans-serif;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  background: rgb(100, 100, 240); /* 제목과 동일한 색상 */
+  transition: transform 0.15s ease;
+}
+
+/* hover 시 반짝이는 무지개 애니메이션 */
+.button:hover {
+  background: linear-gradient(
+    90deg,
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    indigo,
+    violet,
+    red
+  );
+  background-size: 400% 100%;
+  animation: rainbow-flash 0.5s linear infinite;
+  transform: scale(1.05);
+}
+
+@keyframes rainbow-flash {
+  0% {
+    background-position: 0% 50%;
+    filter: brightness(1.2);
+  }
+  25% {
+    background-position: 100% 50%;
+    filter: brightness(1.5);
+  }
+  50% {
+    background-position: 0% 50%;
+    filter: brightness(1.2);
+  }
+  75% {
+    background-position: 100% 50%;
+    filter: brightness(1.5);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: brightness(1.2);
+  }
+}
