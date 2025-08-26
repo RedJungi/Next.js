@@ -9,6 +9,7 @@ const links = [
   { href: "/marketing-nav/blog", label: "블로그" },
   { href: "/marketing-nav/case", label: "고객 사례" },
   { href: "/marketing-nav/demoform", label: "데모 신청" },
+  { href: "/marketing-nav/tealounge", label: "Tea Lounge" },
 ];
 
 export default function Header({ header }: { header: ReactNode }) {
