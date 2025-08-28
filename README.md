@@ -44,3 +44,44 @@ header-nav 기본적인 경로 페이지 설정
 블로그 페이지 네이션 구현
 
 데이터 베이스 x
+
+## 8/28 추가 내용
+
+PostgreSQL(DB) 과 Prisma(ORM)를 사용해 연동
+
+필요한 라이브러리들 설치 및 초기 셋팅
+
+```bash
+- 설치 및 실행
+
+brew install postgresql
+brew services start postgresql
+
+- ORM 도구 설치
+
+npm install prisma @prisma/client
+
+- JS 라이브러리 설치
+
+npm install postgres
+
+- prisma 초기화
+
+npx prisma init
+
+- prisma 마이그레이션을 실행하여 데이터베이스 테이블 생성
+
+npx prisma migrate dev --name init
+
+(schema.prisma 파일 → 실제 데이터베이스 테이블)
+
+- prisma clien 생성
+
+npx prisma generate
+```
+
+schema.prisma → 모델 생성
+
+API 엔드포인트 설정 및 간단한 데이터 생성( + 예외처리)
+
+테스트
