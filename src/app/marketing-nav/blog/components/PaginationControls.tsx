@@ -16,12 +16,12 @@ const PaginationControls: FC<PaginationControlsProps> = ({
   const searchParams = useSearchParams();
 
   const page = searchParams.get("page") ?? "1"; // 기본값 1
-  const per_page = searchParams.get("per_page") ?? "5"; // 기본값 5
+  const per_page = searchParams.get("per_page") ?? "15"; // 기본값 5
 
   // 총 페이지 수 계산 ex) 25 / 5 = 5
   const currentPage = Number(page); // 현재 페이지 번호
   const totalPages = Math.ceil(totalPage / Number(per_page)); // 총 페이지 수
-  const maxVisiblePages = 5; // 보여줄 최대 페이지 수
+  const maxVisiblePages = 15; // 보여줄 최대 페이지 수
 
   //특정 페이지 번호를 클릭하면
   const handlePageClick = (pageNum: number) => { 

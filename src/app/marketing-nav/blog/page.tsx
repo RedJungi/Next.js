@@ -1,9 +1,18 @@
 import PaginationControls from "./components/PaginationControls";
 import styles from "./blog.module.css";
+import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 
-// 25개의 데이터
-// (_, i) -> _ 첫번째 매개변수는 사용하지 않음
-const data = Array.from({ length: 25 }, (_, i) => `blog ${i + 1}`); //인덱스가 1부터 시작
+// Post 타입 정의
+type Post = {
+  id: number;
+  title: string;
+  content: string | null;
+  author: string | null;
+  published: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 export default async function blogPage({
   searchParams,
@@ -11,28 +20,43 @@ export default async function blogPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const resolvedSearchParams = await searchParams;
-  const page = resolvedSearchParams["page"] ?? "1"; // 기본값 1
-  const per_page = resolvedSearchParams["per_page"] ?? "5"; // 기본값 5
+  const page = Number(resolvedSearchParams["page"] ?? "1"); // 기본값 1
+  const per_page = Number(resolvedSearchParams["per_page"] ?? "15"); // 기본값 15 (한 페이지에 보여줄 개수)
 
-  const start = (Number(page) - 1) * Number(per_page); // 0, 5, 10 ... 페이지네이션 시작 인덱스
-  const end = start + Number(per_page); // 5, 10, 15 ... 페이지네이션 끝 인덱스
+  // 페이지네이션을 위한 데이터 조회
+  const posts = await prisma.post.findMany({ // Post 테이블에서 데이터 조회(Read)
+    where: { published: true },
+    orderBy: [
+      { createdAt: "desc" }, // 최신순 우선 (블로그15 ~ 블로그1)
+      { id: "desc" }, // 같은 시간이면 ID 높은 순
+    ],
+    skip: (page - 1) * per_page, // 페이지네이션 시작점
+    take: per_page, // 한 페이지당 개수
+  });
 
-  const entries = data.slice(start, end); // 현재 페이지에 해당하는 항목들
+  // 전체 개수 조회 (페이지네이션용)
+  const totalCount = await prisma.post.count({
+    where: { published: true },
+  });
 
   return (
     <div className={styles.container}>
-      {entries.map(
-        (
-          entry,
-          index // key는 index로 설정
-        ) => (
-          <p key={index}>{entry}</p>
-        )
-      )}
+      {posts.map((post: Post) => (
+        <Link
+          key={post.id}
+          href={`/marketing-nav/blog/${post.id}`}
+          className={styles.postCard}
+        >
+          <h2>{post.title}</h2>
+          <p>{post.content?.substring(0, 100)}...</p> {/* 내용이 있을 때만 앞에서 100자까지 잘라서 표시하고 뒤에 ... 추가 */}
+          <div className={styles.postMeta}>
+            <span>작성자: {post.author || "익명"}</span> {/* 작성자가 없으면 "익명" 표시 */}
+            <span>{new Date(post.createdAt).toLocaleDateString("ko-KR")}</span> {/* 한국 날짜 형식으로 표시 */}
+          </div>
+        </Link>
+      ))}
 
-      <PaginationControls
-        totalPage={data.length} // 전체 데이터 개수
-      />
+      <PaginationControls totalPage={totalCount} />
     </div>
   );
 }

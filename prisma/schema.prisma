@@ -17,11 +17,12 @@ datasource db {
 model Post {
   id        Int      @id @default(autoincrement()) // ← 기본 키, 자동 증가
   title     String // ← 필수 문자열
-  content   String // ← 필수 문자열
+  content   String? // ← 선택적 문자열 (내용이 없을 수도 있음)
   author    String? // ← 선택적 문자열
-  published Boolean  @default(false) // ← 기본값 false
-  createdAt DateTime @default(now()) // ← 기본값 현재 시간
-  updatedAt DateTime @updatedAt // ← 업데이트 시 현재 시간으로 자동 변경
+  published Boolean  @default(true) // ← 기본값 true
+  createdAt DateTime @default(now()) // ← 생성 시간
+  updatedAt DateTime @updatedAt // ← 업데이트 시간
 
   @@map("posts") // ← 테이블 이름을 posts로 지정
 }
+
