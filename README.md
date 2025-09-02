@@ -93,3 +93,13 @@ prisma studio를 이용해 데이터 추가
 테이블 데이터 조회기능 추가 (prisma-findMany)
 
 기존 페이지네이션 기능에 데이터 추가
+
+## 9/1~2 추가 내용
+
+서버 액션 기능 추가 (redirect)
+
+입력폼 스키마 생성(Prisma) 및 반영
+
+searchParams를 사용해 redirect 쿼리 파라미터 상태별로 메시지 표시(성공, 에러, 유효성)
+
+폼 입력 후 버튼 클릭 시 DB저장

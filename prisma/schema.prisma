@@ -25,4 +25,16 @@ model Post {
 
   @@map("posts") // ← 테이블 이름을 posts로 지정
 }
+//메시지 외에 다른 필드는 필수
+model apply{ // 데모 신청 입력폼 모델
+  id        Int      @id @default(autoincrement()) // ID 추가
+  name      String // 이름은 필수
+  company   String // 회사명 추가
+  email     String   @unique // 이메일은 고유해야 함
+  phone     String // 전화번호는 필수
+  message   String? // 메시지는 선택적
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
+  @@map("applies")
+}

@@ -17,11 +17,11 @@ type Post = {
 export default async function blogPage({
   searchParams,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>; // searchParams 타입 정의
 }) {
   const resolvedSearchParams = await searchParams;
   const page = Number(resolvedSearchParams["page"] ?? "1"); // 기본값 1
-  const per_page = Number(resolvedSearchParams["per_page"] ?? "15"); // 기본값 15 (한 페이지에 보여줄 개수)
+  const per_page = Number(resolvedSearchParams["per_page"] ?? "5"); // 기본값 15 (한 페이지에 보여줄 개수)
 
   // 페이지네이션을 위한 데이터 조회
   const posts = await prisma.post.findMany({ // Post 테이블에서 데이터 조회(Read)
