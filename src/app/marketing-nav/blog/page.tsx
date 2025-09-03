@@ -24,7 +24,8 @@ export default async function blogPage({
   const per_page = Number(resolvedSearchParams["per_page"] ?? "5"); // 기본값 15 (한 페이지에 보여줄 개수)
 
   // 페이지네이션을 위한 데이터 조회
-  const posts = await prisma.post.findMany({ // Post 테이블에서 데이터 조회(Read)
+  const posts = await prisma.post.findMany({
+    // Post 테이블에서 데이터 조회(Read)
     where: { published: true },
     orderBy: [
       { createdAt: "desc" }, // 최신순 우선 (블로그15 ~ 블로그1)
@@ -48,15 +49,23 @@ export default async function blogPage({
           className={styles.postCard}
         >
           <h2>{post.title}</h2>
-          <p>{post.content?.substring(0, 100)}...</p> {/* 내용이 있을 때만 앞에서 100자까지 잘라서 표시하고 뒤에 ... 추가 */}
+          <p>{post.content?.substring(0, 100)}...</p>{" "}
+          {/* 내용이 있을 때만 앞에서 100자까지 잘라서 표시하고 뒤에 ... 추가 */}
           <div className={styles.postMeta}>
-            <span>작성자: {post.author || "익명"}</span> {/* 작성자가 없으면 "익명" 표시 */}
-            <span>{new Date(post.createdAt).toLocaleDateString("ko-KR")}</span> {/* 한국 날짜 형식으로 표시 */}
+            <span>작성자: {post.author || "익명"}</span>{" "}
+            {/* 작성자가 없으면 "익명" 표시 */}
+            <span>
+              {new Date(post.createdAt).toLocaleDateString("ko-KR")}
+            </span>{" "}
+            {/* 한국 날짜 형식으로 표시 */}
           </div>
         </Link>
       ))}
-
       <PaginationControls totalPage={totalCount} />
+
+      <Link href="/marketing-nav/blog/write">
+        <button className={styles.writeButton}>글쓰기</button>
+      </Link>
     </div>
   );
 }

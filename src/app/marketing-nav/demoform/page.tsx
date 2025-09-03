@@ -1,4 +1,3 @@
-import { ReactNode } from "react"; // 데모 신청 폼 컴포넌트를 위한 타입 정의
 import styles from "./demoform.module.css"; // 스타일 파일을 임포트합니다
 import { prisma } from "@/lib/prisma"; // Prisma 클라이언트를 임포트합니다
 import { redirect } from "next/navigation"; // 리다이렉트를 위한 함수 임포트
@@ -40,10 +39,10 @@ async function applyForm(formData: FormData) {
 }
 
 export default async function DemoFormPage({
-  demoForm,
+
   searchParams,
 }: {
-  demoForm: ReactNode;
+
   searchParams?: Promise<{
     success?: string;
     error?: string;
@@ -53,7 +52,7 @@ export default async function DemoFormPage({
   const asyncSearchParams = await searchParams; // Promise를 해결하여 실제 값을 얻음
   return (
     <div className={styles.demoForm}>
-      {demoForm} {/* 데모 신청 폼 컴포넌트가 여기에 렌더링됩니다 */}
+      
       <h1>서비스 데모 신청</h1>
       <p>아래에 서비스 데모 신청 폼을 작성해 주세요.</p> <br />
       {asyncSearchParams?.success === "true" && (

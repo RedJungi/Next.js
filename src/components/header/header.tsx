@@ -23,7 +23,9 @@ export default function Header({ header }: { header: ReactNode }) {
           height={30}
           priority
         />
-        Phum{header}
+        
+        {header}
+        Phum
       </Link>
       <nav className={styles.nav}>
         {links.map((link) => (

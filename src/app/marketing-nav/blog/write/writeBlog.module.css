@@ -1,0 +1,68 @@
+.writeForm {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  padding-bottom: 4rem; /* 하단 여백 추가 */
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* 상대 위치 설정 */
+}
+
+.inputForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.titleInput input,
+.contentInput textarea,
+.authorInput input {
+  width: 100%;
+  border: 2px solid #d1d5db !important; /* 확실한 회색 경계선 */
+  border-radius: 6px !important;
+  padding: 12px !important;
+  font-size: 16px !important;
+  background-color: white !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.titleInput input:focus,
+.contentInput textarea:focus,
+.authorInput input:focus {
+  outline: none !important;
+  border-color: #3b82f6 !important; /* 포커스 시 파란색 경계선 */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important; /* 포커스 시 파란색 그림자 */
+}
+
+.titleInput input:hover,
+.contentInput textarea:hover,
+.authorInput input:hover {
+  border-color: #9ca3af !important; /* 호버 시 진한 회색 */
+}
+
+.contentInput textarea {
+  min-height: 200px !important;
+  resize: vertical !important;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem; /* 상단 여백 늘림 */
+  padding: 1rem 0; /* 패딩 추가 */
+  border-top: 1px solid #e5e7eb; /* 상단 경계선 */
+}
+
+.button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+
