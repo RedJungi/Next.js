@@ -113,3 +113,7 @@ searchParams를 사용해 redirect 쿼리 파라미터 상태별로 메시지 �
 블로그 글쓰기 페이지 폼 구현
 
 작성하기 버튼 클릭 시 DB저장 -> 블로그 페이지로 redirect
+
+TailWindCSS 설치 및 shadcn 적용
+
+간단한 블로그 페이지 UI 및 글쓰기 폼 페이지 UI 구현
