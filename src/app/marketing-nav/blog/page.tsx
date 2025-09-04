@@ -2,6 +2,9 @@ import PaginationControls from "./components/PaginationControls";
 import styles from "./blog.module.css";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
+
 
 // Post 타입 정의
 type Post = {
@@ -13,6 +16,33 @@ type Post = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+// 삭제 Server Action 함수
+async function deletePost(formData: FormData) {
+  "use server";
+  
+  const postId = formData.get("postId")?.toString();
+  
+  if (!postId) {
+    return;
+  }
+
+  try {
+    await prisma.post.delete({
+      where: {
+        id: parseInt(postId)
+      }
+    });
+    
+    
+  } catch (error) {
+    console.error("Delete error:", error);
+    // 에러 처리
+    redirect("/marketing-nav/blog?error=true"); 
+  }
+  // 삭제 후 페이지 새로고침 또는 리다이렉트
+    redirect("/marketing-nav/blog"); // 또는 해당 페이지
+}
 
 export default async function blogPage({
   searchParams,
@@ -50,13 +80,19 @@ export default async function blogPage({
         >
           <h2>{post.title}</h2>
           <p>{post.content?.substring(0, 100)}...</p>{" "}
+
+          <form action={deletePost}>
+            <input type="hidden" name="postId" value={post.id} />
+            <Button type="submit">삭제</Button>
+          </form>
+
           {/* 내용이 있을 때만 앞에서 100자까지 잘라서 표시하고 뒤에 ... 추가 */}
           <div className={styles.postMeta}>
             <span>작성자: {post.author || "익명"}</span>{" "}
             {/* 작성자가 없으면 "익명" 표시 */}
             <span>
               {new Date(post.createdAt).toLocaleDateString("ko-KR")}
-            </span>{" "}
+            </span>
             {/* 한국 날짜 형식으로 표시 */}
           </div>
         </Link>
