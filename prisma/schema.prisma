@@ -39,6 +39,7 @@ model apply{ // 데모 신청 입력폼 모델
   @@map("applies")
 }
 
+// blog 글쓰기 모델
 model blog{
   id        Int      @id @default(autoincrement()) // 기본 키, 자동 증가
   title     String
@@ -47,5 +48,6 @@ model blog{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  
   @@map("blogs")
 }

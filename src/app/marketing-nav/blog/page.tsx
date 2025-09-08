@@ -5,7 +5,6 @@ import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 
-
 // Post 타입 정의
 type Post = {
   id: number;
@@ -16,34 +15,60 @@ type Post = {
   createdAt: Date;
   updatedAt: Date;
 };
-
-// 삭제 Server Action 함수
-async function deletePost(formData: FormData) {
+// 수정 Server Action 함수
+export async function updatePost(formData: FormData) {
   "use server";
-  
+
   const postId = formData.get("postId")?.toString();
-  
-  if (!postId) {
+  const title = formData.get("title")?.toString();
+  const content = formData.get("content")?.toString();
+
+  if (!postId || !title || !content) {
     return;
   }
 
   try {
-    await prisma.post.delete({
+    await prisma.post.update({
       where: {
-        id: parseInt(postId)
-      }
+        id: parseInt(postId), // postId는 string이므로 숫자로 변환
+      },
+      data: {
+        title,
+        content,
+      },
     });
-    
-    
+  } catch (error) {
+    console.error("Update error:", error);
+    // 에러 처리
+    redirect("/marketing-nav/blog?error=true");
+  }
+  redirect("/marketing-nav/blog"); // 또는 해당 페이지
+}
+
+// 삭제 Server Action 함수
+async function deletePost(formData: FormData) {
+  "use server";
+
+  const postId = formData.get("postId")?.toString();
+
+  if (!postId) {
+    return;
+  }
+  try {
+    await prisma.post.deleteMany({
+      where: {
+        id: parseInt(postId),
+      },
+    });
   } catch (error) {
     console.error("Delete error:", error);
     // 에러 처리
-    redirect("/marketing-nav/blog?error=true"); 
+    redirect("/marketing-nav/blog?error=true");
   }
   // 삭제 후 페이지 새로고침 또는 리다이렉트
-    redirect("/marketing-nav/blog"); // 또는 해당 페이지
+  redirect("/marketing-nav/blog"); // 또는 해당 페이지
 }
-
+// 블로그 메인 페이지 컴포넌트
 export default async function blogPage({
   searchParams,
 }: {
@@ -73,29 +98,31 @@ export default async function blogPage({
   return (
     <div className={styles.container}>
       {posts.map((post: Post) => (
-        <Link
-          key={post.id}
-          href={`/marketing-nav/blog/${post.id}`}
-          className={styles.postCard}
-        >
-          <h2>{post.title}</h2>
-          <p>{post.content?.substring(0, 100)}...</p>{" "}
+        <div key={post.id} className={styles.postCard}>
+          <Link href={`/marketing-nav/blog/${post.id}`}>
+            <h2>{post.title}</h2>
+            <p>{post.content?.substring(0, 100)}...</p>
+          </Link>
 
-          <form action={deletePost}>
-            <input type="hidden" name="postId" value={post.id} />
-            <Button type="submit">삭제</Button>
-          </form>
+          <div className="flex gap-2 mb-2">
+            <form action={deletePost}>
+              <input type="hidden" name="postId" value={post.id} />
+              <Button type="submit">삭제</Button>
+            </form>
 
-          {/* 내용이 있을 때만 앞에서 100자까지 잘라서 표시하고 뒤에 ... 추가 */}
-          <div className={styles.postMeta}>
-            <span>작성자: {post.author || "익명"}</span>{" "}
-            {/* 작성자가 없으면 "익명" 표시 */}
-            <span>
-              {new Date(post.createdAt).toLocaleDateString("ko-KR")}
-            </span>
-            {/* 한국 날짜 형식으로 표시 */}
+            <Link href={`/marketing-nav/blog/edit/${post.id}`}>
+              <form action={updatePost}>
+                <input type="hidden" name="postId" value={post.id} />
+                <Button type="submit">수정</Button>
+              </form>
+            </Link>
           </div>
-        </Link>
+
+          <div className={styles.postMeta}>
+            <span>작성자: {post.author || "익명"}</span>
+            <span>{new Date(post.createdAt).toLocaleDateString("ko-KR")}</span>
+          </div>
+        </div>
       ))}
       <PaginationControls totalPage={totalCount} />
 

@@ -46,7 +46,7 @@ export default async function DemoFormPage({
   searchParams?: Promise<{
     success?: string;
     error?: string;
-    validation?: null | string;
+    validation?: null | string; //validation 값이 있으면 null이거나 string
   }>; // searchParams 타입 정의
 }) {
   const asyncSearchParams = await searchParams; // Promise를 해결하여 실제 값을 얻음
@@ -67,7 +67,7 @@ export default async function DemoFormPage({
         <div className={styles.errorMessage}>
           오류가 발생했습니다. 다시 시도해 주세요.
         </div>
-      )}
+      )}  
       <form className={styles.inputform} action={applyForm}>
         {/* Server Action을 폼의 action으로 지정 */}
         <div className={styles.form}>

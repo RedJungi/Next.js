@@ -5,10 +5,10 @@ import Image from "next/image";
 import styles from "./case.module.css";
 
 export default function CasePage() {
-  const [openA, setOpenA] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const closeAll = () => {
-    setOpenA(false);
+    setOpen(false);
   };
 
   // ESC로 닫기
@@ -16,29 +16,29 @@ export default function CasePage() {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeAll();
     };
-    if (openA) document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [openA]);
+    if (open) document.addEventListener("keydown", onKeyDown); // 모달창이 열려 있을 때만 키보드 이벤트 리스너 등록
+    return () => document.removeEventListener("keydown", onKeyDown); // 컴포넌트 언마운트 시 리스너 해제(이벤트 리스너 누적시 중복 실행 방지)
+  }, [open]); // open이 변경될 때마다 실행
 
-  // 모달 열릴 때 포커스 이동(간단 버전)
-  const btnCloseA = useRef<HTMLButtonElement | null>(null);
+  // 모달 열릴 때 포커스 이동
+  const btnClose = useRef<HTMLButtonElement | null>(null); 
 
   useEffect(() => {
-    if (openA) btnCloseA.current?.focus();
-  }, [openA]);
+    if (open) btnClose.current?.focus();  // 모달이 열릴 때 닫기 버튼에 포커스 이동
+  }, [open]);
 
   return (
     <main className={styles.page}>
       <h2 className={styles.title}>품 서비스 고객들의 이야기</h2>
 
       <div className={styles.actions}>
-        <button className={styles.primary} onClick={() => setOpenA(true)}>
+        <button className={styles.primary} onClick={() => setOpen(true)}>
           <Image src="/image/몽.jpeg" alt="img" width={100} height={100} />
           <h2 className={styles.modalTitle}>몽이</h2>
         </button>
       </div>
 
-      {openA && ( // 모달 열릴 때만 렌더링 (openA가 true일 때)
+      {open && ( // 모달 열릴 때만 렌더링 (open이 true일 때)
         <div className={styles.backdrop} onClick={closeAll} aria-hidden="true">
           <section
             className={styles.modal}
@@ -50,7 +50,7 @@ export default function CasePage() {
             <header className={styles.modalHeader}>
               <h2 id="modalA-title">몽이</h2>
               <button
-                ref={btnCloseA}
+                ref={btnClose}
                 className={styles.iconBtn}
                 onClick={closeAll}
               >

@@ -47,7 +47,7 @@ export default function Header({ header }: { header: ReactNode }) {
         <NavigationMenu>
           <NavigationMenuList>
             {links.map((link) =>
-              link.label === "서비스 소개" ? (
+              link.label === "서비스 소개" ? ( //서비스 소개에만 드롭다운 메뉴 추가
                 <NavigationMenuItem key={link.href}>
                   <NavigationMenuTrigger>
                     <Link href={link.href}>{link.label}</Link>
@@ -98,7 +98,7 @@ export default function Header({ header }: { header: ReactNode }) {
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
-              ) : (
+              ) : ( 
                 <NavigationMenuItem key={link.href}>
                   <NavigationMenuLink
                     asChild
