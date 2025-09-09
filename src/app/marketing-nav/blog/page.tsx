@@ -16,7 +16,7 @@ type Post = {
   updatedAt: Date;
 };
 // 수정 Server Action 함수
-export async function updatePost(formData: FormData) {
+async function updatePost(formData: FormData) {
   "use server";
 
   const postId = formData.get("postId")?.toString();
