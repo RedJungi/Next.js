@@ -11,30 +11,8 @@ jobs:
       - name: Run deploy script on server via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.HOST }} 
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          port: 22
-          timeout: 120s
-          script: |
-            echo "🚀 배포 시작..."
-
-            # 스크립트 경로 확인
-            SCRIPT_PATH="/home/hjg/Next.js/deploy.sh"
-
-            if [ ! -f "$SCRIPT_PATH" ]; then
-              echo "❌ deploy.sh 파일을 찾을 수 없습니다: $SCRIPT_PATH"
-              echo "현재 디렉토리 내용:"
-              ls -la /home/hjg/Next.js/
-              exit 1
-            fi
-
-            # 실행 권한 부여
-            chmod +x "$SCRIPT_PATH"
-
-            # 환경변수 설정 (필요시)
-            export NODE_ENV=production
-
-            # 스크립트 실행
-            echo "📝 deploy.sh 실행 중..."
-            bash "$SCRIPT_PATH"
+          script: 
+             bash '/home/hjg/Next.js/deploy.sh'
