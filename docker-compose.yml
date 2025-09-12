@@ -4,6 +4,7 @@ services:
   # Next.js 애플리케이션
   nextjs:
     build: .
+    image: hongjungi/phum-nextjs:latest
     container_name: phum-nextjs
     ports:
       - "4000:4000"
